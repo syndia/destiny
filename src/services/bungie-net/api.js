@@ -7,8 +7,8 @@ export const getPublicMilestones = () => {
   return fetchFromBungieNet(`/Destiny2/Milestones/`, { method: 'GET' })
 }
 
-const fetchFromBungieNet = async (path, addons) => {
-  if (typeof window === `undefined`) {
+const fetchFromBungieNet = (path, addons) => {
+  if (typeof Headers === `undefined`) {
     return null
   }
   const headers = new Headers()
@@ -16,25 +16,25 @@ const fetchFromBungieNet = async (path, addons) => {
 
   const init = {
     ...addons,
-    headers: headers,
+    headers,
     mode: `cors`,
-    cache: `default`,
+    cache: `no-cache`,
   }
 
-  try {
-    console.log(`Fetching resource from path ${path}`, init)
-    const request = new Request(`${BUNGIENET_API_ROOT_URL}${path}`)
-    const response = await fetch(request, init)
-    if (response.ok) {
-      const resource = response.json()
-      console.log(`Received resource`, resource)
-      return resource
-    } else {
-      console.error(
-        `Failed to fetch resource. Got response code: ${response.status}`
+  console.log(`Fetching resource from path ${path}`, init)
+  const request = new Request(`${BUNGIENET_API_ROOT_URL}${path}`)
+  fetch(`${BUNGIENET_API_ROOT_URL}${path}`, init)
+    .then(response => {
+      if (response.ok) {
+        const resource = response.json()
+        console.log(`Received resource`, resource)
+        return resource
+      }
+      throw new Error(`Network response was not ok.`)
+    })
+    .catch(error =>
+      console.log(
+        `There has been a problem with your fetch operation: ${error.message}`
       )
-    }
-  } catch (error) {
-    console.error(`Failed to fetch resource`, error)
-  }
+    )
 }
