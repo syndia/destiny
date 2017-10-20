@@ -8,10 +8,11 @@ export const getPublicMilestones = () => {
 }
 
 const fetchFromBungieNet = (path, addons) => {
-  if (typeof Headers === `undefined`) {
+  if (typeof fetch === `undefined`) {
     return null
   }
   const headers = new Headers()
+  headers.set(`Accept`, `application/json`)
   headers.set(`X-API-Key`, BUNGIENET_API_KEY)
 
   const init = {
@@ -23,7 +24,9 @@ const fetchFromBungieNet = (path, addons) => {
 
   console.log(`Fetching resource from path ${path}`, init)
   const request = new Request(`${BUNGIENET_API_ROOT_URL}${path}`)
-  fetch(`${BUNGIENET_API_ROOT_URL}${path}`, init)
+  console.log(request)
+
+  fetch(request, init)
     .then(response => {
       if (response.ok) {
         const resource = response.json()
