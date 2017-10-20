@@ -3,11 +3,14 @@ import Link from 'gatsby-link'
 import get from 'lodash/get'
 import Helmet from 'react-helmet'
 
+import { getPublicMilestones } from '../services/bungie-net/api'
 import Bio from '../components/Bio'
 import { rhythm } from '../utils/typography'
 
 class BlogIndex extends React.Component {
   render() {
+    const milestones = getPublicMilestones()
+    console.log(milestones)
     const siteTitle = get(this, 'props.data.site.siteMetadata.title')
     const posts = get(this, 'props.data.allMarkdownRemark.edges')
 
