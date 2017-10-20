@@ -12,19 +12,18 @@ const fetchFromBungieNet = (path, addons) => {
     return null
   }
   const headers = new Headers()
-  headers.set(`Accept`, `application/json`)
+  headers.set(`Content-Type`, `application/json; charset=utf-8`)
   headers.set(`X-API-Key`, BUNGIENET_API_KEY)
 
   const init = {
     ...addons,
     headers,
     mode: `cors`,
-    cache: `no-cache`,
+    cache: `default`,
   }
 
   console.log(`Fetching resource from path ${path}`, init)
   const request = new Request(`${BUNGIENET_API_ROOT_URL}${path}`)
-  console.log(request)
 
   fetch(request, init)
     .then(response => {
@@ -35,6 +34,7 @@ const fetchFromBungieNet = (path, addons) => {
       }
       throw new Error(`Network response was not ok.`)
     })
+    .then(json => console.log(json))
     .catch(error =>
       console.log(
         `There has been a problem with your fetch operation: ${error.message}`
