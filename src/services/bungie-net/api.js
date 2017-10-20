@@ -8,6 +8,9 @@ export const getPublicMilestones = () => {
 }
 
 const fetchFromBungieNet = async (path, addons) => {
+  if (typeof window === `undefined`) {
+    return null
+  }
   const headers = new Headers()
   headers.set(`X-API-Key`, BUNGIENET_API_KEY)
 
