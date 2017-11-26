@@ -1,80 +1,64 @@
-import React from 'react'
+/**
+ * External dependencies
+ */
+import React, { Component } from 'react'
 import Link from 'gatsby-link'
-import { Container } from 'react-responsive-grid'
+import Head from 'react-helmet'
 
+/**
+ * Internal dependencies
+ */
+import presets from '../utils/presets'
 import { rhythm, scale } from '../utils/typography'
+import rem from '../utils/rem'
+import media from '../utils/media'
+import MasterbarLoggedIn from '../components/layout/masterbar/logged-in'
+import MasterbarLoggedOut from '../components/layout/masterbar/logged-out'
+import Sidebar from '../components/layout/sidebar'
+import MobileNavigation from '../components/layout/navigation/mobile'
 
-class Template extends React.Component {
+import 'typeface-roboto'
+
+export default class Template extends Component {
+  renderMasterbar = () => {
+    if (!this.props.user) {
+      return <MasterbarLoggedOut pathname={this.props.location.pathname} />
+    }
+
+    return <MasterbarLoggedIn user={this.props.user} />
+  }
+
   render() {
     const { location, children } = this.props
-    let header
+    const isHomepage = location.pathname === `/`
+    const hasSidebar = location.pathname.slice(0, 6) === '/docs/'
 
-    let rootPath = `/`
-    if (typeof __PREFIX_PATHS__ !== `undefined` && __PREFIX_PATHS__) {
-      rootPath = __PATH_PREFIX__ + `/`
-    }
+    const navLinks = [{ label: `Sets`, pathname: `/sets/` }]
 
-    if (location.pathname === rootPath) {
-      header = (
-        <h1
-          style={{
-            ...scale(1.5),
-            marginBottom: rhythm(1.5),
-            marginTop: 0,
-          }}
-        >
-          <Link
-            style={{
-              boxShadow: 'none',
-              textDecoration: 'none',
-              color: 'inherit',
-            }}
-            to={'/'}
-          >
-            Gatsby Starter Blog
-          </Link>
-        </h1>
-      )
-    } else {
-      header = (
-        <h3
-          style={{
-            fontFamily: 'Montserrat, sans-serif',
-            marginTop: 0,
-            marginBottom: rhythm(-1),
-          }}
-        >
-          <Link
-            style={{
-              boxShadow: 'none',
-              textDecoration: 'none',
-              color: 'inherit',
-            }}
-            to={'/'}
-          >
-            Gatsby Starter Blog
-          </Link>
-        </h3>
-      )
-    }
     return (
-      <Container
-        style={{
-          maxWidth: rhythm(24),
-          padding: `${rhythm(1.5)} ${rhythm(3 / 4)}`,
-        }}
-      >
-        {header}
-        {children()}
-      </Container>
+      <div>
+        <Head defaultTitle="Destiny Clan" titleTemplate={`%s | Syndia`}>
+          <html lang="en" />
+          <meta name="twitter:site" content="@syndianl" />
+          <meta name="og:type" content="website" />
+          <meta name="og:site_name" content="Destiny Clan" />
+        </Head>
+        {this.renderMasterbar()}
+        <div
+          className={hasSidebar ? `main-body has-sidebar` : `main-body`}
+          css={{
+            paddingTop: 0,
+            [media(`tablet`)]: {
+              margin: `0 auto`,
+              paddingTop: isHomepage ? 0 : rem(presets.sizes.masterbarHeight),
+            },
+          }}
+        >
+          <Sidebar yaml={[]} />
+          {children()}
+        </div>
+        <MobileNavigation pathname={location.pathname} />
+      </div>
     )
   }
 }
-
-Template.propTypes = {
-  children: React.PropTypes.func,
-  location: React.PropTypes.object,
-  route: React.PropTypes.object,
-}
-
-export default Template
