@@ -2,6 +2,7 @@
  * External dependencies
  */
 import React, { Component } from 'react'
+import { sortBy } from 'lodash'
 
 /**
  * Internal dependencies
@@ -12,6 +13,8 @@ import Masterbar from './index'
 import Item from './item'
 
 export default class MasterbarLoggedIn extends Component {
+  state = {}
+
   componentDidMount() {
     this.fetchMemberships()
   }
@@ -23,7 +26,12 @@ export default class MasterbarLoggedIn extends Component {
           return
         }
 
-        this.setState({ data })
+        return Promise.all(
+          data.destinyMemberships.map(membership => getProfile(membership))
+        )
+      })
+      .then(profiles => {
+        console.log(profiles)
       })
       .catch(error => console.error(error))
   }
