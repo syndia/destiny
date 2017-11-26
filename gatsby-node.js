@@ -128,7 +128,6 @@ exports.sourceNodes = async ({ boundActionCreators }) => {
     }
   )
 }
-*/
 
 async function onCreateNode({ node, boundActionCreators, loadNodeContent }) {
   const { createNode, createParentChildLink } = boundActionCreators
@@ -151,7 +150,6 @@ async function onCreateNode({ node, boundActionCreators, loadNodeContent }) {
 }
 exports.onCreateNode = onCreateNode
 
-/*
 exports.createPages = ({ graphql, boundActionCreators }) => {
   const { createPage } = boundActionCreators
 
