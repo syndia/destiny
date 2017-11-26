@@ -23,10 +23,25 @@ export const searchDestinyPlayer = (membershipType, displayName) =>
     method: `GET`,
   })
 
-export const getProfile = ({ membershipType, membershipId }) =>
-  fetch(`${API_PATH}/${membershipType}/Profile/${membershipId}/`, {
-    method: `GET`,
-  })
+export const getProfile = ({ membershipType, membershipId }, components) => {
+  if (!components.length) {
+    return Promise.reject(
+      `You must request at least one component to receive results`
+    )
+  }
+
+  const searchParams = new URLSearchParams()
+  searchParams.set(`components`, components.join(`,`))
+
+  return fetch(
+    `${API_PATH}/${membershipType}/Profile/${
+      membershipId
+    }/?${searchParams.toString()}`,
+    {
+      method: `GET`,
+    }
+  )
+}
 
 export const getCharacter = (
   membershipType,

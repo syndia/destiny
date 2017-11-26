@@ -13,6 +13,10 @@ import { getProfile } from '../../../services/bungie-net/api/destiny-2'
 import Masterbar from './index'
 import Item from './item'
 
+const COMPONENT_PROFILES = 100
+
+const COMPONENTS = [COMPONENT_PROFILES]
+
 export default class MasterbarLoggedIn extends Component {
   state = {}
 
@@ -28,7 +32,10 @@ export default class MasterbarLoggedIn extends Component {
         }
 
         return Promise.all(
-          data.destinyMemberships.map(membership => getProfile(membership))
+          data.destinyMemberships.map(
+            membership => getProfile(membership),
+            COMPONENTS
+          )
         )
       })
       .then(profiles => {
