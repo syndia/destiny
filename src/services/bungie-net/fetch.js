@@ -51,7 +51,7 @@ function fetchFromBungieNet(path, options) {
       throw new Error(`Network response was not ok.`)
     })
     .then(data => {
-      if (data.ErrorCode !== 1) {
+      if (data.ErrorCode && data.ErrorCode !== 1) {
         throw new Error(
           `Bungie.net API Error ${data.ErrorStatus} - ${
             data.Message
