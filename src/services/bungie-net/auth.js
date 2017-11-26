@@ -50,7 +50,7 @@ function handleNewAuthData(data) {
   */
 
   const authData = {
-    accessToken: data.accessToken.value,
+    accessToken: data.access_token,
     accessTokenExpiry,
     /*
     refreshToken: data.refreshToken.value,
