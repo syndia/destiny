@@ -107,8 +107,8 @@ export default function handleAuthorizeCallback(callback) {
         .then(handleNewAuthData)
         .then(() => callback(true, null))
         .catch(error => handleAuthorizeError(error, callback))
+    } else {
+      callback(false, null)
     }
-
-    callback(false, null)
   })
 }
