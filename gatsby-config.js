@@ -19,6 +19,7 @@ module.exports = {
         path: `${__dirname}/src/pages`,
       },
     },
+    /*
     {
       resolve: `gatsby-source-filesystem`,
       options: {
@@ -26,7 +27,6 @@ module.exports = {
         path: `${__dirname}/data`,
       },
     },
-    /*
     {
       resolve: `gatsby-source-destiny-manifest`,
       options: {
@@ -34,8 +34,8 @@ module.exports = {
         apiKey: process.env.BUNGIENET_API_KEY,
       },
     },
-    */
     `gatsby-transformer-json`,
+    */
     `gatsby-transformer-javascript-static-exports`,
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-glamor`,
