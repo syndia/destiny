@@ -32,9 +32,8 @@ export default class MasterbarLoggedIn extends Component {
         }
 
         return Promise.all(
-          data.destinyMemberships.map(
-            membership => getProfile(membership),
-            COMPONENTS
+          data.destinyMemberships.map(membership =>
+            getProfile(membership, COMPONENTS)
           )
         )
       })
