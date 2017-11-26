@@ -17,7 +17,7 @@ export const getAccessTokenFromCode = authCode => {
   body.set(`client_id`, CLIENT_ID)
   body.set(`code`, authCode)
 
-  return fetch(`${API_PATH}/OAuth/token`, { method: `POST`, body })
+  return fetch(`${API_PATH}/OAuth/token/`, { method: `POST`, body })
 }
 
 export const getAccessTokenFromRefreshToken = refreshToken => {
@@ -26,5 +26,5 @@ export const getAccessTokenFromRefreshToken = refreshToken => {
   body.set(`client_id`, CLIENT_ID)
   body.set(`refresh_token`, refreshToken)
 
-  return fetch(`${API_PATH}/OAuth/token`, { method: `POST`, body })
+  return fetch(`${API_PATH}/OAuth/token/`, { method: `POST`, body })
 }

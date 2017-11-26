@@ -30,7 +30,7 @@ function fetchFromBungieNet(path, options) {
     cache: `default`,
   }
 
-  console.log(`Fetching data from path ${url}`, init)
+  console.log(`Fetching data from path ${path}`, init)
   const request = new Request(url, init)
 
   return fetch(request)
