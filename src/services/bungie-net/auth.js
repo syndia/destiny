@@ -25,23 +25,6 @@ export const makeAuthorizeRequestUri = (client_id, state) => {
   return `${BUNGIENET_BASE_URL}/en/oauth/authorize?${searchParams.toString()}`
 }
 
-export const handleAuthorizeCallback = () => {
-  const url = new URL(window.location.href)
-
-  if (url.searchParams.has(`state`) && url.searchParams.has(`code`)) {
-    const authCode = url.searchParams.get(`code`)
-    const authState = url.searchParams.get(`state`)
-
-    if (authState !== store.get(LOCAL_STORAGE_AUTH).state) {
-      console.error(
-        `State parameter did not match submitted state token. Possible CSRF attack or other shenanigans`
-      )
-    }
-
-    getAccessTokenFromCode(authCode).then(authData => {})
-  }
-}
-
 export const authorizeWithBungieNet = () => {
   const state = Math.random()
     .toString(36)
@@ -55,7 +38,15 @@ export const authorizeWithBungieNet = () => {
   })
 }
 
+function handleAuthorizeError(error, callback) {
+  console.error(`Authorize error:`)
+  console.error(error)
+  store.remove(LOCAL_STORAGE_AUTH).then(() => callback(error))
+}
+
 function handleNewAuthData(data) {
+  console.log(data)
+
   const accessTokenExpiry = new Date()
   const refreshTokenExpiry = new Date()
 
@@ -80,7 +71,7 @@ function handleNewAuthData(data) {
   return Promise.resolve()
 }
 
-export default callback => {
+export default function handleAuthorizeCallback(callback) {
   const now = Date.now()
   const url = new URL(window.location.href)
   const searchParams = url.searchParams
@@ -107,7 +98,7 @@ export default callback => {
       .then(() => callback(true, null))
       .catch(error => {
         console.log(`Failed to get new access token`)
-        handleAuthError(error, callback)
+        handleAuthorizeError(error, callback)
       })
   } else if (searchParams.has(`code`) && searchParams.has(`state`)) {
     window.history.replaceState({}, `foo`, `/`)
@@ -115,7 +106,7 @@ export default callback => {
     getAccessTokenFromCode(searchParams.get(`code`))
       .then(handleNewAuthData)
       .then(() => callback(true, null))
-      .catch(error => handleAuthError)
+      .catch(error => handleAuthorizeError(error, callback))
   }
 
   callback(false, null)
