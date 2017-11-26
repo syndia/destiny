@@ -1,6 +1,6 @@
 const INVENTORY = '$inventory'
 const FILTERS = '$filters'
-const ACCOUNT = '$account'
+const LOCAL_STORAGE_ACCOUNT = '$account'
 const LOCAL_STORAGE_AUTH = '$auth'
 
 function get(key) {

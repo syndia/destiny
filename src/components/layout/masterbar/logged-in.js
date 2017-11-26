@@ -10,11 +10,12 @@ import { sortBy } from 'lodash'
 import { rhythm, scale } from '../../../utils/typography'
 import { getMembershipsForCurrentUser } from '../../../services/bungie-net/api/user'
 import { getProfile } from '../../../services/bungie-net/api/destiny-2'
+import store from '../../../services/bungie-net/local-storage'
 import Masterbar from './index'
 import Item from './item'
 
+const LOCAL_STORAGE_ACCOUNT = '$account'
 const COMPONENT_PROFILES = 100
-
 const COMPONENTS = [COMPONENT_PROFILES]
 
 export default class MasterbarLoggedIn extends Component {
@@ -49,8 +50,20 @@ export default class MasterbarLoggedIn extends Component {
       })
       .then(profiles => {
         this.setState({ profiles })
+
+        store.get(LOCAL_STORAGE_ACCOUNT).then(({ id, type }) => {
+          if (!(id && type)) {
+            return this.switchProfile(profile[0])
+          }
+        })
       })
       .catch(error => console.error(error))
+  }
+
+  switchProfile = profile => {
+    const { profile: { data: { membershipId, membershipType } } } = profile
+
+    store.set(LOCAL_STORAGE_ACCOUNT, { membershipId, membershipType })
   }
 
   render() {
