@@ -9,6 +9,7 @@ import { sortBy } from 'lodash'
  */
 import { rhythm, scale } from '../../../utils/typography'
 import { getMembershipsForCurrentUser } from '../../../services/bungie-net/api/user'
+import { getProfile } from '../../../services/bungie-net/api/destiny-2'
 import Masterbar from './index'
 import Item from './item'
 
