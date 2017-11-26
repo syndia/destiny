@@ -36,7 +36,7 @@ export const authorizeWithBungieNet = () => {
 function handleAuthorizeError(error, callback) {
   console.error(`Authorize error:`)
   console.error(error)
-  store.remove(LOCAL_STORAGE_AUTH).then(() => callback(error))
+  store.remove(LOCAL_STORAGE_AUTH).then(() => callback(false, error))
 }
 
 function handleNewAuthData(data) {
