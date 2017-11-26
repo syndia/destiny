@@ -50,19 +50,6 @@ export default class MasterbarLoggedIn extends Component {
       })
       .then(profiles => {
         this.setState({ profiles })
-
-        store
-          .get(LOCAL_STORAGE_ACCOUNT)
-          .then(({ membershipId, membershipType }) => {})
-          .catch(error => {
-            if (error) {
-              console.log(error)
-            }
-
-            const currentProfile = this.switchProfile(profiles[0])
-
-            return Promise.resolve(currentProfile)
-          })
       })
       .catch(error => console.error(error))
   }
