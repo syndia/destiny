@@ -38,7 +38,17 @@ export default class MasterbarLoggedIn extends Component {
         )
       })
       .then(profiles => {
-        console.log(profiles)
+        return sortBy(
+          profiles
+            .filter(Boolean)
+            .filter(({ profile }) => profile.data.versionsOwned === 1),
+          ({ profile }) => {
+            return new Date(profile.data.dateLastPlayed).getTime()
+          }
+        ).reverse()
+      })
+      .then(profiles => {
+        this.setState({ profiles })
       })
       .catch(error => console.error(error))
   }
