@@ -40,23 +40,22 @@ function handleAuthorizeError(error, callback) {
 }
 
 function handleNewAuthData(data) {
-  console.log(data)
-
   const accessTokenExpiry = new Date()
   const refreshTokenExpiry = new Date()
 
-  accessTokenExpiry.setSeconds(
-    accessTokenExpiry.getSeconds() + data.accessToken.expires
-  )
+  accessTokenExpiry.setSeconds(accessTokenExpiry.getSeconds() + data.expires_in)
+  /*
   refreshTokenExpiry.setSeconds(
-    refreshTokenExpiry.getSeconds() + data.refreshToken.expires
-  )
+    refreshTokenExpiry.getSeconds() + data.refreshToken.expires_in
+  */
 
   const authData = {
     accessToken: data.accessToken.value,
     accessTokenExpiry,
+    /*
     refreshToken: data.refreshToken.value,
     refreshTokenExpiry,
+    */
   }
 
   store.set(LOCAL_STORAGE_AUTH, authData)
@@ -75,15 +74,21 @@ export default function handleAuthorizeCallback(callback) {
 
   const accessTokenIsValid =
     previousAuthData && now < new Date(previousAuthData.accessTokenExpiry)
+  /*
   const refreshTokenIsValid =
     previousAuthData && now < new Date(previousAuthData.refreshTokenExpiry)
+  */
 
-  console.log({ previousAuthData, accessTokenIsValid, refreshTokenIsValid })
+  console.log({
+    previousAuthData,
+    accessTokenIsValid /*, refreshTokenIsValid*/,
+  })
 
   if (accessTokenIsValid) {
     console.log(`Access token is valid`)
     window.AUTH_DATA = previousAuthData
     callback(true, null)
+    /*
   } else if (!accessTokenIsValid && refreshTokenIsValid) {
     console.info(`Access token has expired, but refresh token is still valid`)
     console.log(`Using refresh token to get a new access token`)
@@ -95,6 +100,7 @@ export default function handleAuthorizeCallback(callback) {
         console.log(`Failed to get new access token`)
         handleAuthorizeError(error, callback)
       })
+  */
   } else if (searchParams.has(`code`) && searchParams.has(`state`)) {
     window.history.replaceState({}, `foo`, `/`)
 
