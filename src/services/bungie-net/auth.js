@@ -1,12 +1,7 @@
 /**
  * Internal dependencies
  */
-import {
-  CLIENT_ID,
-  BUNGIENET_BASE_URL,
-  LOCAL_STORAGE_STATE_TOKEN,
-  LOCAL_STORAGE_AUTH_TOKEN,
-} from './constants'
+import { CLIENT_ID, BUNGIENET_BASE_URL } from './constants'
 import {
   getAccessTokenFromCode,
   getAccessTokenFromRefreshToken,

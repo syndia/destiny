@@ -1,6 +1,3 @@
-export const LOCAL_STORAGE_AUTH_TOKEN = `authToken`
-export const LOCAL_STORAGE_STATE_TOKEN = `stateToken`
-
 export const CLIENT_ID = `1535`
 export const CLIENT_SECRET = `m7aOvxvaLgAfeLkT4QC6mg1fyl81iZBt5ptzkq4Pay0`
 

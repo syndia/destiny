@@ -1,15 +1,14 @@
 /**
  * Internal dependencies
  */
-const { BUNGIENET_API_KEY, BUNGIENET_API_ROOT_URL } = require('./constants')
+const { BUNGIENET_API_KEY, BUNGIENET_BASE_URL } = require('./constants')
 
 /**
  * High-level function to coordinate fetching data from Bungie.net site.
  */
 function fetchFromBungieNet(path, options) {
-  const url = new URL(`${BUNGIENET_API_ROOT_URL}${path}`)
+  const url = new URL(`${BUNGIENET_BASE_URL}/Platform${path}`)
   const headers = new Headers()
-  const searchParams = new URLSearchParams()
 
   headers.set(`Content-Type`, `application/json; charset=utf-8`)
   headers.set(`X-API-Key`, BUNGIENET_API_KEY)
@@ -31,7 +30,7 @@ function fetchFromBungieNet(path, options) {
     cache: `default`,
   }
 
-  console.log(`Fetching data from path ${path}`, init)
+  console.log(`Fetching data from path ${url}`, init)
   const request = new Request(url, init)
 
   return fetch(request)
