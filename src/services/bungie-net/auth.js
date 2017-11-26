@@ -70,25 +70,24 @@ export default function handleAuthorizeCallback(callback) {
   const url = new URL(window.location.href)
   const searchParams = url.searchParams
 
-  const previousAuthData = store.get(LOCAL_STORAGE_AUTH).then(data => data)
-
-  const accessTokenIsValid =
-    previousAuthData && now < new Date(previousAuthData.accessTokenExpiry)
-  /*
+  store.get(LOCAL_STORAGE_AUTH).then(previousAuthData => {
+    const accessTokenIsValid =
+      previousAuthData && now < new Date(previousAuthData.accessTokenExpiry)
+    /*
   const refreshTokenIsValid =
     previousAuthData && now < new Date(previousAuthData.refreshTokenExpiry)
   */
 
-  console.log({
-    previousAuthData,
-    accessTokenIsValid /*, refreshTokenIsValid*/,
-  })
+    console.log({
+      previousAuthData,
+      accessTokenIsValid /*, refreshTokenIsValid*/,
+    })
 
-  if (accessTokenIsValid) {
-    console.log(`Access token is valid`)
-    window.AUTH_DATA = previousAuthData
-    callback(true, null)
-    /*
+    if (accessTokenIsValid) {
+      console.log(`Access token is valid`)
+      window.AUTH_DATA = previousAuthData
+      callback(true, null)
+      /*
   } else if (!accessTokenIsValid && refreshTokenIsValid) {
     console.info(`Access token has expired, but refresh token is still valid`)
     console.log(`Using refresh token to get a new access token`)
@@ -101,14 +100,15 @@ export default function handleAuthorizeCallback(callback) {
         handleAuthorizeError(error, callback)
       })
   */
-  } else if (searchParams.has(`code`) && searchParams.has(`state`)) {
-    window.history.replaceState({}, `foo`, `/`)
+    } else if (searchParams.has(`code`) && searchParams.has(`state`)) {
+      window.history.replaceState({}, `foo`, `/`)
 
-    getAccessTokenFromCode(searchParams.get(`code`))
-      .then(handleNewAuthData)
-      .then(() => callback(true, null))
-      .catch(error => handleAuthorizeError(error, callback))
-  }
+      getAccessTokenFromCode(searchParams.get(`code`))
+        .then(handleNewAuthData)
+        .then(() => callback(true, null))
+        .catch(error => handleAuthorizeError(error, callback))
+    }
 
-  callback(false, null)
+    callback(false, null)
+  })
 }
