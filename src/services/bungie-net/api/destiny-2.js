@@ -23,8 +23,8 @@ export const searchDestinyPlayer = (membershipType, displayName) =>
     method: `GET`,
   })
 
-export const getProfile = ({ membershipType, destinyMembershipId }) =>
-  fetch(`${API_PATH}/${membershipType}/Profile/${destinyMembershipId}/`, {
+export const getProfile = ({ membershipType, membershipId }) =>
+  fetch(`${API_PATH}/${membershipType}/Profile/${membershipId}/`, {
     method: `GET`,
   })
 
