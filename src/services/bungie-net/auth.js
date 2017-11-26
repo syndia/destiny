@@ -70,7 +70,7 @@ export default function handleAuthorizeCallback(callback) {
   const url = new URL(window.location.href)
   const searchParams = url.searchParams
 
-  const previousAuthData = store.get(LOCAL_STORAGE_AUTH)
+  const previousAuthData = store.get(LOCAL_STORAGE_AUTH).then(data => data)
 
   const accessTokenIsValid =
     previousAuthData && now < new Date(previousAuthData.accessTokenExpiry)
