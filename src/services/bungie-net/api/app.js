@@ -17,14 +17,14 @@ export const getAccessTokenFromCode = authCode => {
   body.set(`client_id`, CLIENT_ID)
   body.set(`code`, authCode)
 
-  return fetch(`${API_PATH}/OAuth/token/`, { method: `POST`, body })
+  return fetch(`${API_PATH}/OAuth/Token/`, { method: `POST`, body })
 }
 
 export const getAccessTokenFromRefreshToken = refreshToken => {
   const body = new URLSearchParams()
-  body.set(`grand_type`, `refresh_token`)
+  body.set(`grant_type`, `refresh_token`)
   body.set(`client_id`, CLIENT_ID)
   body.set(`refresh_token`, refreshToken)
 
-  return fetch(`${API_PATH}/OAuth/token/`, { method: `POST`, body })
+  return fetch(`${API_PATH}/OAuth/Token/`, { method: `POST`, body })
 }

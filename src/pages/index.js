@@ -12,7 +12,7 @@ import Helmet from 'react-helmet'
 import presets from '../utils/presets'
 import { rhythm } from '../utils/typography'
 import { authorizeWithBungieNet } from '../services/bungie-net/auth'
-import withBungieNetAuthorization from '../components/bungie-net/auth-provider'
+import withBungieNetProvider from '../components/bungie-net/provider'
 import Hero from '../components/hero'
 import HeroTitle from '../components/hero/title'
 import HeroSubtitle from '../components/hero/subtitle'
@@ -24,12 +24,9 @@ class IndexRoute extends Component {
     loading: false,
   }
 
-  componentDidMount() {
-    /*
-    getGroup(groupId).then(data => {
-      this.setState({ group: data })
-    })
-    */
+  componentWillReceiveProps(newProps) {
+    if (!this.props.isAuthenticated && newProps.isAuthenticated) {
+    }
   }
 
   onAuthorize = () => {
@@ -41,10 +38,10 @@ class IndexRoute extends Component {
   }
 
   render() {
-    const { loading, group } = this.state
-    const { isAuthenticated } = this.props
+    const { group } = this.state
+    const { isLoading, isAuthenticated } = this.props
 
-    if (loading) {
+    if (isLoading) {
       return <div>Loading...</div>
     }
 
@@ -65,4 +62,4 @@ class IndexRoute extends Component {
   }
 }
 
-export default withBungieNetAuthorization(IndexRoute)
+export default withBungieNetProvider(IndexRoute)

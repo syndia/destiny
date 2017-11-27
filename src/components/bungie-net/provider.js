@@ -8,8 +8,8 @@ import React, { Component } from 'react'
  */
 import authorizeWithBungieNet from '../../services/bungie-net/auth'
 
-export default function withBungieNetAuthProvider(WrappedComponent) {
-  return class BungieNetAuthProvider extends Component {
+export default function withBungieNetProvider(WrappedComponent) {
+  return class BungieNetProvider extends Component {
     state = {
       isAuthenticated: false,
       isLoaded: false,
@@ -17,7 +17,7 @@ export default function withBungieNetAuthProvider(WrappedComponent) {
 
     componentDidMount() {
       authorizeWithBungieNet((isAuthenticated, error) => {
-        console.log(`Authorize with Bungie.net`, { isAuthenticated, error })
+        console.log(`BungieNetProvider`, { isAuthenticated, error })
 
         if (error) {
           throw error
@@ -28,11 +28,13 @@ export default function withBungieNetAuthProvider(WrappedComponent) {
     }
 
     render() {
+      const { isLoaded, isAuthenticated } = this.state
+
       return (
         <WrappedComponent
           {...this.props}
-          isLoaded={this.state.isLoaded}
-          isAuthenticated={this.state.isAuthenticated}
+          isLoaded={isLoaded}
+          isAuthenticated={isAuthenticated}
         />
       )
     }

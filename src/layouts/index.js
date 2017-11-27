@@ -12,7 +12,7 @@ import presets from '../utils/presets'
 import { rhythm, scale } from '../utils/typography'
 import rem from '../utils/rem'
 import media from '../utils/media'
-import withAuthorizeWithBungieNet from '../components/bungie-net/auth-provider'
+import withBungieNetProvider from '../components/bungie-net/provider'
 import MasterbarLoggedIn from '../components/layout/masterbar/logged-in'
 import MasterbarLoggedOut from '../components/layout/masterbar/logged-out'
 import Sidebar from '../components/layout/sidebar'
@@ -64,4 +64,4 @@ class Template extends Component {
   }
 }
 
-export default withAuthorizeWithBungieNet(Template)
+export default withBungieNetProvider(Template)

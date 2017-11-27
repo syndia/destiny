@@ -3,18 +3,30 @@ const FILTERS = '$filters'
 const LOCAL_STORAGE_ACCOUNT = '$account'
 const LOCAL_STORAGE_AUTH = '$auth'
 
-function get(key) {
-  return Promise.resolve(JSON.parse(localStorage.getItem(key)))
+function get(key, defaultValue) {
+  const value = localStorage.getItem(key)
+
+  if (!value) {
+    return defaultValue
+  }
+
+  try {
+    return JSON.parse(value) || defaultValue
+  } catch (error) {
+    console.error(`Unable to retrieve ${key} from local storage as JSON:`)
+    console.error(error)
+
+    return defaultValue
+  }
 }
 
 function set(key, data) {
-  localStorage.setItem(key, JSON.stringify(data))
-  return Promise.resolve(data)
+  const stringifiedData = JSON.stringify(data)
+  localStorage.setItem(key, stringifiedData)
 }
 
 function remove(key) {
   localStorage.removeItem(key)
-  return Promise.resolve(`Deleted`)
 }
 
 module.exports = {
