@@ -20,10 +20,6 @@ import HeroButton from '../components/hero/button'
 import Cover from '../components/cover/image'
 
 class IndexRoute extends Component {
-  state = {
-    loading: false,
-  }
-
   componentWillReceiveProps(newProps) {
     if (!this.props.isAuthenticated && newProps.isAuthenticated) {
     }
@@ -38,25 +34,25 @@ class IndexRoute extends Component {
   }
 
   render() {
-    const { group } = this.state
-    const { isLoading, isAuthenticated } = this.props
+    const { isLoaded, isAuthenticated } = this.props
 
-    if (isLoading) {
+    if (!isLoaded) {
       return <div>Loading...</div>
     }
 
     return (
       <div css={{ position: `relative` }}>
         <Helmet title={get(this, 'props.data.site.siteMetadata.title')} />
-        {!isAuthenticated && (
-          <Hero imageUrl="https://www.destinythegame.com/content/dam/atvi/bungie/destiny2/expansion1/hero/exp-1-hero-1440.jpg">
-            <HeroSubtitle text="Destiny Clan" />
-            <HeroTitle text="PS4 Alpha" />
-            <HeroButton onClick={this.onAuthorize}>
-              {`Autoriseer met Bungie.net`}
-            </HeroButton>
-          </Hero>
-        )}
+        {isLoaded &&
+          !isAuthenticated && (
+            <Hero imageUrl="https://www.destinythegame.com/content/dam/atvi/bungie/destiny2/expansion1/hero/exp-1-hero-1440.jpg">
+              <HeroSubtitle text="Destiny Clan" />
+              <HeroTitle text="PS4 Alpha" />
+              <HeroButton onClick={this.onAuthorize}>
+                {`Autoriseer met Bungie.net`}
+              </HeroButton>
+            </Hero>
+          )}
       </div>
     )
   }

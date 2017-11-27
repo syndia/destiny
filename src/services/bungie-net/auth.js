@@ -65,7 +65,7 @@ function handleNewAuthorizationData(data) {
   return Promise.resolve()
 }
 
-export default function handleAuthorizeCallback(callback) {
+export default callback => {
   const now = Date.now()
   const url = new URL(window.location.href)
   const searchParams = url.searchParams
@@ -104,7 +104,7 @@ export default function handleAuthorizeCallback(callback) {
     window.history.replaceState({}, `foo`, `/`)
 
     getAccessTokenFromCode(searchParams.get(`code`))
-      .then(handleNewAuthData)
+      .then(handleNewAuthorizationData)
       .then(() => callback(true, null))
       .catch(error => handleAuthorizeError(error, callback))
   } else {
