@@ -2,12 +2,13 @@
  * External dependencies
  */
 import React from 'react'
+import { Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
 
 /**
  * Internal dependencies
  */
-import store from './src/state/store'
+import createStore from './src/state/create-store'
 
 exports.onRouteUpdate = function({ location }) {
   // Don't track while developing
@@ -17,10 +18,14 @@ exports.onRouteUpdate = function({ location }) {
   }
 }
 
-exports.wrapRootComponent = ({ Root }) => {
-  return () => (
+exports.replaceRouterComponent = ({ history }) => {
+  const store = createStore()
+
+  const ConnectedRouteWrapper = ({ children }) => (
     <Provider store={store}>
-      <Root />
+      <Router history={history}>{children}</Router>
     </Provider>
   )
+
+  return ConnectedRouteWrapper
 }
