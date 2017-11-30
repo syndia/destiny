@@ -16,7 +16,13 @@ export const isLoggedIn = () => {
   return Boolean(authToken) && !isTokenExpired(authToken)
 }
 
-const getAccessToken = () => store.get(LOCAL_STORAGE_AUTH).accessToken
+const getAccessToken = () => store.get(LOCAL_STORAGE_AUTH)
+
+const isTokenExpired = token => {
+  const now = new Date()
+
+  return token.accessTokenExpiry < now
+}
 
 export const makeAuthorizeRequestUri = (client_id, state) => {
   const searchParams = new URLSearchParams()
