@@ -3,12 +3,12 @@ const oauth = (state = { isAuthenticated: false }, action) => {
     case 'LOG_IN':
       return {
         ...state,
-        oauth: { isAuthenticated: true },
+        isAuthenticated: true,
       }
     case 'LOG_OUT':
       return {
         ...state,
-        oauth: { isAuthenticated: false },
+        isAuthenticated: false,
       }
     default:
       return state
