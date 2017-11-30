@@ -46,7 +46,7 @@ class Template extends Component {
   componentDidMount() {
     const { oauth: { isAuthenticated } } = this.props
 
-    if (!isAuthenticated) {
+    if (isAuthenticated) {
       this.props.dispatch(fetchBungieNetUser())
     }
   }

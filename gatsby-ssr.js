@@ -9,14 +9,6 @@ import { Provider } from 'react-redux'
  */
 import store from './src/state/store'
 
-exports.onRouteUpdate = function({ location }) {
-  // Don't track while developing
-  if (process.env.NODE_ENV === `production` && typeof ga === `function`) {
-    ga(`set`, `page`, (location || {}).pathname)
-    ga(`send`, `pageview`)
-  }
-}
-
 exports.wrapRootComponent = ({ Root }) => {
   return () => (
     <Provider store={store}>
