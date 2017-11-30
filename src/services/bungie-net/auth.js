@@ -10,6 +10,14 @@ import store from './local-storage'
 
 const LOCAL_STORAGE_AUTH = `$auth`
 
+export const isLoggedIn = () => {
+  const authToken = getAccessToken()
+
+  return Boolean(authToken) && !isTokenExpired(authToken)
+}
+
+const getAccessToken = () => store.get(LOCAL_STORAGE_AUTH).accessToken
+
 export const makeAuthorizeRequestUri = (client_id, state) => {
   const searchParams = new URLSearchParams()
 

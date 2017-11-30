@@ -2,6 +2,7 @@
  * External dependencies
  */
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import Link from 'gatsby-link'
 import Head from 'react-helmet'
 
@@ -12,7 +13,9 @@ import presets from '../utils/presets'
 import { rhythm, scale } from '../utils/typography'
 import rem from '../utils/rem'
 import media from '../utils/media'
-import withBungieNetProvider from '../components/bungie-net/provider'
+import { fetchBungieNetUser } from '../state/user/actions'
+import { setLoggedIn } from '../state/oauth/actions'
+import { isLoggedIn } from '../services/bungie-net/auth'
 import MasterbarLoggedIn from '../components/layout/masterbar/logged-in'
 import MasterbarLoggedOut from '../components/layout/masterbar/logged-out'
 import Sidebar from '../components/layout/sidebar'
@@ -20,10 +23,46 @@ import MobileNavigation from '../components/layout/navigation/mobile'
 
 import 'typeface-roboto'
 
+const NAVIGATION_LINKS = [
+  { label: `Sets`, pathname: `/sets/` },
+  { label: `outfitter`, pathname: `/outfitter/` },
+]
+
+const SOCIAL_LINKS = [
+  `https://github.com/syndia`,
+  `https://twitter.com/syndianl`,
+  `https://www.twitch.tv/syndianl`,
+]
+
 class Template extends Component {
+  constructor(props) {
+    super(props)
+
+    if (isLoggedIn()) {
+      props.dispatch(setLoggedIn())
+    }
+  }
+
+  componentDidMount() {
+    const { oauth: { isAuthenticated } } = this.props
+
+    if (!isAuthenticated) {
+      this.props.dispatch(fetchBungieNetUser())
+    }
+  }
+
   renderMasterbar = () => {
-    if (!this.props.isAuthenticated) {
-      return <MasterbarLoggedOut pathname={this.props.location.pathname} />
+    const { oauth: { isAuthenticated } } = this.props
+
+    if (!isAuthenticated) {
+      return (
+        <MasterbarLoggedOut
+          title="Syndia"
+          pathname={this.props.location.pathname}
+          navLinks={NAVIGATION_LINKS}
+          socialLinks={SOCIAL_LINKS}
+        />
+      )
     }
 
     return <MasterbarLoggedIn />
@@ -64,4 +103,6 @@ class Template extends Component {
   }
 }
 
-export default withBungieNetProvider(Template)
+const mapStateToProps = ({ oauth, user }) => ({ oauth, user })
+
+export default connect(mapStateToProps)(Template)

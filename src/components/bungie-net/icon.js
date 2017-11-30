@@ -8,9 +8,10 @@ import React from 'react'
  */
 import { BUNGIENET_BASE_URL } from '../../services/bungie-net/constants'
 
-export default function Icon({ pathname, filter }) {
+export default function Icon({ pathname, filter, className }) {
   return (
     <img
+      className={className}
       src={`${BUNGIENET_BASE_URL}${pathname}`}
       css={{
         margin: 0,

@@ -77,7 +77,6 @@ export default class MasterbarLoggedIn extends Component {
             {title || `Syndia`}
           </h1>
         </Item>
-        <Item />
       </Masterbar>
     )
   }

@@ -186,14 +186,16 @@ export const denyPendingForList = (groupId, postBody) =>
     body: postBody,
   })
 
-export const getGroupsForMember = (
+export const getGroupsForMember = ({
   membershipType,
   membershipId,
   filter,
-  groupType
-) =>
+  groupType,
+}) =>
   fetch(
-    `${API_PATH}/User/${membershipType}/${membershipId}/${filter}/${groupId}/`,
+    `${API_PATH}/User/${membershipType}/${membershipId}/${filter}/${
+      groupType
+    }/`,
     { method: `GET` }
   )
 

@@ -3,9 +3,10 @@
  */
 import React from 'react'
 
-export default function Image({ imageUrl, backgroundPosition, css }) {
+export default function Image({ imageUrl, backgroundPosition, className }) {
   return (
     <div
+      className={className}
       css={{
         position: `absolute`,
         top: 0,
@@ -16,7 +17,6 @@ export default function Image({ imageUrl, backgroundPosition, css }) {
         backgroundPosition: `50% 50%`,
         backgroundSize: `cover`,
         opacity: 1,
-        ...css,
       }}
     />
   )

@@ -12,24 +12,10 @@ import { scale, options } from '../../../utils/typography'
 
 export default class MasterbarItem extends Component {
   render() {
-    const { url = '/', tooltip, className, style, children } = this.props
+    const { url = '/', tooltip, children, ...rest } = this.props
 
     return (
-      <Link
-        className={className}
-        to={url}
-        title={tooltip}
-        css={{
-          flex: `0 1 auto`,
-          display: `flex`,
-          alignItems: `center`,
-          position: `relative`,
-          padding: `0 15px`,
-          color: `inherit`,
-          textDecoration: `none`,
-          ...style,
-        }}
-      >
+      <Link to={url} title={tooltip} {...rest}>
         <span
           css={{
             fontFamily: options.headerFontFamily,
