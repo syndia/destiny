@@ -20,16 +20,6 @@ exports.modifyWebpackConfig = ({ config }) =>
     },
   ])
 
-exports.modifyBabelrc = ({ babelrc = {} }) => {
-  return {
-    ...babelrc,
-    plugins: babelrc.plugins.concat([
-      [`transform-react-jsx`, { pragma: `Glamor.createElement` }],
-      `glamor/babel-hoist`,
-    ]),
-  }
-}
-
 /*
 function createContentDigest(content) {
   return crypto
