@@ -19,26 +19,9 @@ module.exports = {
         path: `${__dirname}/src/pages`,
       },
     },
-    /*
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        name: `destiny-gear-sets`,
-        path: `${__dirname}/data`,
-      },
-    },
-    {
-      resolve: `gatsby-source-destiny-manifest`,
-      options: {
-        baseURL: `https://www.bungie.net`,
-        apiKey: process.env.BUNGIENET_API_KEY,
-      },
-    },
     `gatsby-transformer-json`,
-    */
     `gatsby-transformer-javascript-static-exports`,
     `gatsby-plugin-react-helmet`,
-    `gatsby-plugin-glamor`,
     {
       resolve: `gatsby-plugin-google-analytics`,
       options: {

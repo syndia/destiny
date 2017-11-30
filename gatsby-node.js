@@ -1,17 +1,36 @@
 /**
  * External dependencies
  */
-const path = require('path')
-const crypto = require('crypto')
-const _ = require('lodash')
-const Promise = require('bluebird')
-const select = require(`unist-util-select`)
-const fs = require(`fs-extra`)
+const webpack = require(`webpack`)
+//const path = require('path')
+//const crypto = require('crypto')
+//const fs = require(`fs-extra`)
+//const _ = require('lodash')
+//const Promise = require('bluebird')
+//const select = require(`unist-util-select`)
 
 /**
  * Internal dependencies
  */
 
+exports.modifyWebpackConfig = ({ config }) =>
+  config.plugin(`Glamor`, webpack.ProvidePlugin, [
+    {
+      Glamor: `glamor/react`,
+    },
+  ])
+
+exports.modifyBabelrc = ({ babelrc }) => {
+  return {
+    ...babelrc,
+    plugins: babelrc.plugins.concat([
+      [`transform-react-jsx`, { pragma: `Glamor.createElement` }],
+      `glamor/babel-hoist`,
+    ]),
+  }
+}
+
+/*
 function createContentDigest(content) {
   return crypto
     .createHash(`md5`)
@@ -21,7 +40,6 @@ function createContentDigest(content) {
 
 let frontmatterEdges
 
-/*
 exports.sourceNodes = async ({ boundActionCreators }) => {
   const { createNode } = boundActionCreators
 

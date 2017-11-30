@@ -38,7 +38,7 @@ class Template extends Component {
   constructor(props) {
     super(props)
 
-    if (isLoggedIn()) {
+    if (typeof window !== `undefined` && isLoggedIn()) {
       props.dispatch(setLoggedIn())
     }
   }

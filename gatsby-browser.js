@@ -4,11 +4,18 @@
 import React from 'react'
 import { Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
+import { rehydrate } from 'glamor'
 
 /**
  * Internal dependencies
  */
-import createStore from './src/state/create-store'
+import configureStore from './src/state'
+
+exports.onClientEntry = () => {
+  if (window._glamor) {
+    rehydrate(window._glamor)
+  }
+}
 
 exports.onRouteUpdate = function({ location }) {
   // Don't track while developing
@@ -19,7 +26,7 @@ exports.onRouteUpdate = function({ location }) {
 }
 
 exports.replaceRouterComponent = ({ history }) => {
-  const store = createStore()
+  const store = configureStore()
 
   const ConnectedRouteWrapper = ({ children }) => (
     <Provider store={store}>
