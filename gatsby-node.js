@@ -20,7 +20,7 @@ exports.modifyWebpackConfig = ({ config }) =>
     },
   ])
 
-exports.modifyBabelrc = ({ babelrc }) => {
+exports.modifyBabelrc = ({ babelrc = {} }) => {
   return {
     ...babelrc,
     plugins: babelrc.plugins.concat([
