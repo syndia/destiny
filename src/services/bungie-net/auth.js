@@ -13,7 +13,7 @@ const LOCAL_STORAGE_AUTH = `$auth`
 export const isLoggedIn = () => {
   const authToken = getAccessToken()
 
-  return Boolean(authToken) && !isTokenExpired(authToken)
+  return Boolean(authToken.accessToken) && !isTokenExpired(authToken)
 }
 
 const getAccessToken = () => store.get(LOCAL_STORAGE_AUTH)
