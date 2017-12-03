@@ -29,7 +29,7 @@ export const fetchMembershipsForCurrentUser = () => dispatch => {
       })
       dispatch({
         type: SET_CURRENT_USER_ID,
-        id: bungieNetUser.id,
+        id: bungieNetUser.membershipId,
       })
       dispatch({
         type: MEMBERSHIPS_FOR_CURRENT_USER_FETCH_SUCCESS,
