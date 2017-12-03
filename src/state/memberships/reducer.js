@@ -28,7 +28,14 @@ const fetchError = createReducer(null, {
 const fetchSuccess = createReducer(null, {
   [MEMBERSHIPS_FOR_CURRENT_USER_FETCH]: () => null,
   [MEMBERSHIPS_FOR_CURRENT_USER_FETCH_FAILED]: () => false,
-  [MEMBERSHIPS_FOR_CURRENT_USER_FETCH_SUCCESS]: () => true,
+  [MEMBERSHIPS_FOR_CURRENT_USER_FETCH_SUCCESS]: (
+    state,
+    { bungieNetUser, destinyMemberships }
+  ) => ({
+    ...state,
+    bungieNetUser,
+    destinyMemberships,
+  }),
 })
 
 export default combineReducers({
