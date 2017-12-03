@@ -22,6 +22,7 @@ export const fetchMembershipsForCurrentUser = () => dispatch => {
   getMembershipsForCurrentUser()
     .then(data => {
       const { bungieNetUser } = data
+      console.log(bungieNetUser)
 
       dispatch({
         type: MEMBERSHIPS_FOR_CURRENT_USER_RECEIVE,
