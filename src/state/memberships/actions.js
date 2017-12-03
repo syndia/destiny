@@ -42,6 +42,8 @@ export const fetchMembershipsForCurrentUser = () => dispatch => {
       dispatch(setCurrentUserId(bungieNetUser.membershipId))
     })
     .catch(error => {
+      console.error(error)
+
       dispatch({
         type: MEMBERSHIPS_FOR_CURRENT_USER_FETCH_FAILED,
         error,
