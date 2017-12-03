@@ -14,14 +14,10 @@ export const receiveMembershipsForCurrentUser = data => (
   dispatch,
   getState
 ) => {
-  dispatch({
-    type: MEMBERSHIPS_FOR_CURRENT_USER_RECEIVE,
-  })
-
   const { bungieNetUser, destinyMemberships } = data
 
   dispatch({
-    type: MEMBERSHIPS_FOR_CURRENT_USER_FETCH_SUCCESS,
+    type: MEMBERSHIPS_FOR_CURRENT_USER_RECEIVE,
     bungieNetUser,
     destinyMemberships,
   })
@@ -38,6 +34,10 @@ export const fetchMembershipsForCurrentUser = () => dispatch => {
 
       dispatch(receiveMembershipsForCurrentUser(data))
       dispatch(setCurrentUserId(bungieNetUser.membershipId))
+
+      dispatch({
+        type: MEMBERSHIPS_FOR_CURRENT_USER_FETCH_SUCCESS,
+      })
     })
     .catch(error => {
       console.error(error)
