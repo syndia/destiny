@@ -103,8 +103,13 @@ class Template extends Component {
   }
 }
 
+const mapStateToProps = (state, ownProps) => ({
+  ...ownProps,
+  isLoggedIn: Boolean(getCurrentUserId(state)),
+})
+
 const mapDispatchToProps = {
   fetchMembershipsForCurrentUser,
 }
 
-export default connect(null, mapDispatchToProps)(Template)
+export default connect(mapStateToProps, mapDispatchToProps)(Template)

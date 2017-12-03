@@ -57,7 +57,7 @@ class IndexRoute extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
   ...ownProps,
-  isLoggedIn: getCurrentUserId(state),
+  isLoggedIn: Boolean(getCurrentUserId(state)),
 })
 
 export default connect(mapStateToProps)(IndexRoute)
