@@ -29,7 +29,7 @@ export default function configureStore(initialState = {}) {
   const enhancers = [
     applyMiddleware(...middlewares),
     isBrowser &&
-      !isProduction &&
+      //!isProduction &&
       window.__REDUX_DEVTOOLS_EXTENSION__ &&
       window.window.__REDUX_DEVTOOLS_EXTENSION__(),
   ].filter(Boolean)
