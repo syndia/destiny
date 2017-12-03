@@ -43,7 +43,7 @@ const data = createReducer(
 
       return get(
         action,
-        [`payload`, [`bungieNetUser`, `destinyMemberships`]],
+        [`payload`, `bungieNetUser`, `destinyMemberships`],
         state
       )
     },
