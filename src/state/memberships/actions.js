@@ -5,14 +5,26 @@ import {
   MEMBERSHIPS_FOR_CURRENT_USER_FETCH,
   MEMBERSHIPS_FOR_CURRENT_USER_FETCH_FAILED,
   MEMBERSHIPS_FOR_CURRENT_USER_FETCH_SUCCESS,
-  SET_CURRENT_USER_ID,
 } from '../action-types'
+import { setCurrentUserId } from '../current-user/actions'
 import { getMembershipsForCurrentUser } from '../../services/bungie-net/api/user'
 
-export const receiveMembershipsForCurrentUser = data => ({
-  type: MEMBERSHIPS_FOR_CURRENT_USER_RECEIVE,
-  ...data,
-})
+export const receiveMembershipsForCurrentUser = data => (
+  dispatch,
+  getState
+) => {
+  dispatch({
+    type: MEMBERSHIPS_FOR_CURRENT_USER_RECEIVE,
+  })
+
+  const { bungieNetUser, destinyMemberships } = data
+
+  dispatch({
+    type: MEMBERSHIPS_FOR_CURRENT_USER_FETCH_SUCCESS,
+    bungieNetUser,
+    destinyMemberships,
+  })
+}
 
 export const fetchMembershipsForCurrentUser = () => dispatch => {
   dispatch({
@@ -22,19 +34,12 @@ export const fetchMembershipsForCurrentUser = () => dispatch => {
   getMembershipsForCurrentUser()
     .then(data => {
       const { bungieNetUser } = data
-      console.log(bungieNetUser)
 
       dispatch({
         type: MEMBERSHIPS_FOR_CURRENT_USER_RECEIVE,
-        bungieNetUser,
+        data,
       })
-      dispatch({
-        type: SET_CURRENT_USER_ID,
-        id: bungieNetUser.membershipId,
-      })
-      dispatch({
-        type: MEMBERSHIPS_FOR_CURRENT_USER_FETCH_SUCCESS,
-      })
+      dispatch(setCurrentUserId(bungieNetUser.membershipId))
     })
     .catch(error => {
       dispatch({
