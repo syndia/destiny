@@ -1,30 +1,17 @@
 /**
+ * External dependencies
+ */
+import store from 'store'
+
+/**
  * Internal dependencies
  */
 import { CLIENT_ID, BUNGIENET_BASE_URL } from './constants'
-import {
-  getAccessTokenFromCode,
-  getAccessTokenFromRefreshToken,
-} from './api/app'
-import store from './local-storage'
+import { getAccessTokenFromCode } from './api/app'
 
 const LOCAL_STORAGE_AUTH = `$auth`
 
-export const isLoggedIn = () => {
-  const authToken = getAccessToken()
-
-  return Boolean(authToken.accessToken) && !isTokenExpired(authToken)
-}
-
-const getAccessToken = () => store.get(LOCAL_STORAGE_AUTH)
-
-const isTokenExpired = token => {
-  const now = new Date()
-
-  return token.accessTokenExpiry < now
-}
-
-export const makeAuthorizeRequestUri = (client_id, state) => {
+export const makeAuthorizationRequestUri = (client_id, state) => {
   const searchParams = new URLSearchParams()
 
   searchParams.set(`response_type`, `code`)
@@ -34,52 +21,41 @@ export const makeAuthorizeRequestUri = (client_id, state) => {
   return `${BUNGIENET_BASE_URL}/en/OAuth/Authorize?${searchParams.toString()}`
 }
 
-export const authorizeWithBungieNet = () => {
+export const signInWithBungieNet = () => {
   const state = Math.random()
     .toString(36)
     .slice(2)
 
   store.set(LOCAL_STORAGE_AUTH, { state })
 
-  let uri = makeAuthorizeRequestUri(CLIENT_ID, state)
+  let uri = makeAuthorizationRequestUri(CLIENT_ID, state)
   window.location.href = uri
   return
 }
 
-function handleAuthorizationError(error, callback) {
+function handleError(error, callback) {
   console.error(`Authorization error:`)
   console.error(error)
   store.remove(LOCAL_STORAGE_AUTH)
   callback(false, error)
 }
 
-function handleNewAuthorizationData(data) {
+function handleAccessTokenResponse({ access_token, expires_in }) {
   const accessTokenExpiry = new Date()
-  const refreshTokenExpiry = new Date()
-
-  accessTokenExpiry.setSeconds(accessTokenExpiry.getSeconds() + data.expires_in)
-  /*
-  refreshTokenExpiry.setSeconds(
-    refreshTokenExpiry.getSeconds() + data.refreshToken.expires_in
-  */
+  accessTokenExpiry.setSeconds(accessTokenExpiry.getSeconds() + expires_in)
 
   const authData = {
-    accessToken: data.access_token,
+    accessToken: access_token,
     accessTokenExpiry,
-    /*
-    refreshToken: data.refreshToken.value,
-    refreshTokenExpiry,
-    */
   }
 
   store.set(LOCAL_STORAGE_AUTH, authData)
-
   window.AUTH_DATA = authData
 
   return Promise.resolve()
 }
 
-export default callback => {
+export const authorizeWithBungieNet = callback => {
   const now = Date.now()
   const url = new URL(window.location.href)
   const searchParams = url.searchParams
@@ -87,40 +63,28 @@ export default callback => {
 
   const accessTokenIsValid =
     previousAuthData && now < new Date(previousAuthData.accessTokenExpiry)
-  /*
-  const refreshTokenIsValid =
-    previousAuthData && now < new Date(previousAuthData.refreshTokenExpiry)
-  */
-
-  console.log({
-    previousAuthData,
-    accessTokenIsValid /*, refreshTokenIsValid*/,
-  })
 
   if (accessTokenIsValid) {
-    console.log(`Access token is valid`)
     window.AUTH_DATA = previousAuthData
+
     callback(true, null)
-    /*
-  } else if (!accessTokenIsValid && refreshTokenIsValid) {
-    console.info(`Access token has expired, but refresh token is still valid`)
-    console.log(`Using refresh token to get a new access token`)
-
-    getAccessTokenFromRefreshToken(previousAuthData.refreshToken)
-      .then(handleNewAuthData)
-      .then(() => callback(true, null))
-      .catch(error => {
-        console.log(`Failed to get new access token`)
-        handleAuthorizeError(error, callback)
-      })
-  */
   } else if (searchParams.has(`code`) && searchParams.has(`state`)) {
-    window.history.replaceState({}, `foo`, `/`)
+    const code = searchParams.get(`code`)
+    const state = searchParams.get(`state`)
 
-    getAccessTokenFromCode(searchParams.get(`code`))
-      .then(handleNewAuthorizationData)
-      .then(() => callback(true, null))
-      .catch(error => handleAuthorizeError(error, callback))
+    if (state !== previousAuthData.state) {
+      console.error(
+        `State parameter did not match submitted state token. Possible CSRF attack.`
+      )
+      callback(false, null)
+    } else {
+      window.history.replaceState({}, `foo`, `/`)
+
+      getAccessTokenFromCode(code)
+        .then(handleAccessTokenResponse)
+        .then(() => callback(true, null))
+        .catch(error => handleError(error, callback))
+    }
   } else {
     callback(false, null)
   }

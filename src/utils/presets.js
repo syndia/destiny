@@ -3,7 +3,7 @@ const baseHsl = `291, 0%, 18%`
 module.exports = {
   // Breakpoints
   breakpoints: {
-    mobile: 400,
+    phone: 400,
     phablet: 550,
     tablet: 750,
     desktop: 1000,

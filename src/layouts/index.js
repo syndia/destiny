@@ -13,9 +13,8 @@ import presets from '../utils/presets'
 import { rhythm, scale } from '../utils/typography'
 import rem from '../utils/rem'
 import media from '../utils/media'
-import { fetchBungieNetUser } from '../state/user/actions'
-import { setLoggedIn } from '../state/oauth/actions'
-import { isLoggedIn } from '../services/bungie-net/auth'
+import { fetchMembershipsForCurrentUser } from '../state/memberships/actions'
+import { authorizeWithBungieNet } from '../services/bungie-net/auth'
 import MasterbarLoggedIn from '../components/layout/masterbar/logged-in'
 import MasterbarLoggedOut from '../components/layout/masterbar/logged-out'
 import Sidebar from '../components/layout/sidebar'
@@ -35,26 +34,27 @@ const SOCIAL_LINKS = [
 ]
 
 class Template extends Component {
-  constructor(props) {
-    super(props)
-
-    if (typeof window !== `undefined` && isLoggedIn()) {
-      props.dispatch(setLoggedIn())
-    }
-  }
-
   componentDidMount() {
-    const { oauth: { isAuthenticated } } = this.props
+    const { isLoggedIn, fetchMembershipsForCurrentUser } = this.props
 
-    if (isAuthenticated) {
-      this.props.dispatch(fetchBungieNetUser())
+    if (!isLoggedIn) {
+      authorizeWithBungieNet((isAuthenticated, error) => {
+        if (error) {
+          throw error
+          return
+        }
+
+        if (isAuthenticated) {
+          fetchMembershipsForCurrentUser()
+        }
+      })
     }
   }
 
   renderMasterbar = () => {
-    const { oauth: { isAuthenticated } } = this.props
+    const { isLoggedIn } = this.props
 
-    if (!isAuthenticated) {
+    if (!isLoggedIn) {
       return (
         <MasterbarLoggedOut
           title="Syndia"
@@ -103,6 +103,8 @@ class Template extends Component {
   }
 }
 
-const mapStateToProps = ({ oauth, user }) => ({ oauth, user })
+const mapDispatchToProps = {
+  fetchMembershipsForCurrentUser,
+}
 
-export default connect(mapStateToProps)(Template)
+export default connect(null, mapDispatchToProps)(Template)
