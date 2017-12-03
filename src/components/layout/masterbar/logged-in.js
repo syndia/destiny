@@ -19,47 +19,6 @@ const COMPONENT_PROFILES = 100
 const COMPONENTS = [COMPONENT_PROFILES]
 
 export default class MasterbarLoggedIn extends Component {
-  state = {}
-
-  componentDidMount() {
-    this.fetchMemberships()
-  }
-
-  fetchMemberships = () => {
-    getMembershipsForCurrentUser()
-      .then(data => {
-        if (!data) {
-          return
-        }
-
-        return Promise.all(
-          data.destinyMemberships.map(membership =>
-            getProfile(membership, COMPONENTS)
-          )
-        )
-      })
-      .then(profiles => {
-        return sortBy(
-          profiles
-            .filter(Boolean)
-            .filter(({ profile }) => profile.data.versionsOwned === 1),
-          ({ profile }) => {
-            return new Date(profile.data.dateLastPlayed).getTime()
-          }
-        ).reverse()
-      })
-      .then(profiles => {
-        this.setState({ profiles })
-      })
-      .catch(error => console.error(error))
-  }
-
-  switchProfile = profile => {
-    const { profile: { data: { membershipId, membershipType } } } = profile
-
-    store.set(LOCAL_STORAGE_ACCOUNT, { membershipId, membershipType })
-  }
-
   render() {
     const { title } = this.props
     return (
