@@ -44,6 +44,7 @@ module.exports = {
         pathToConfigModule: 'src/utils/typography',
       },
     },
+    `gatsby-plugin-react-next`,
     // Keep this at the end
     `gatsby-plugin-netlify`,
   ],

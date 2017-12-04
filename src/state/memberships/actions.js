@@ -7,21 +7,11 @@ import {
   MEMBERSHIPS_FOR_CURRENT_USER_FETCH_SUCCESS,
   MEMBERSHIPS_FOR_CURRENT_USER_RECEIVE,
 } from '../action-types'
-import { setCurrentUserId } from '../current-user/actions'
+import {
+  setCurrentUserId,
+  setCurrentUserMemberships,
+} from '../current-user/actions'
 import { getMembershipsForCurrentUser } from '../../services/bungie-net/api/user'
-
-export const receiveMembershipsForCurrentUser = data => (
-  dispatch,
-  getState
-) => {
-  const { bungieNetUser, destinyMemberships } = data
-
-  dispatch({
-    type: MEMBERSHIPS_FOR_CURRENT_USER_RECEIVE,
-    bungieNetUser,
-    destinyMemberships,
-  })
-}
 
 export const fetchMembershipsForCurrentUser = () => dispatch => {
   dispatch({
@@ -32,7 +22,7 @@ export const fetchMembershipsForCurrentUser = () => dispatch => {
     .then(data => {
       const { bungieNetUser } = data
 
-      dispatch(receiveMembershipsForCurrentUser(data))
+      dispatch(setCurrentUserMemberships(data))
       dispatch(setCurrentUserId(bungieNetUser.membershipId))
 
       dispatch({
