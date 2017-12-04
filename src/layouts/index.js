@@ -13,9 +13,6 @@ import presets from '../utils/presets'
 import { rhythm, scale } from '../utils/typography'
 import rem from '../utils/rem'
 import media from '../utils/media'
-import { fetchMembershipsForCurrentUser } from '../state/memberships/actions'
-import { getCurrentUserId } from '../state/selectors'
-import { authorizeWithBungieNet } from '../services/bungie-net/auth'
 import MasterbarLoggedIn from '../components/layout/masterbar/logged-in'
 import MasterbarLoggedOut from '../components/layout/masterbar/logged-out'
 import Sidebar from '../components/layout/sidebar'
@@ -35,23 +32,6 @@ const SOCIAL_LINKS = [
 ]
 
 class Template extends Component {
-  componentWillMount() {
-    const { isLoggedIn, fetchMembershipsForCurrentUser } = this.props
-
-    if (!isLoggedIn) {
-      authorizeWithBungieNet((isAuthenticated, error) => {
-        if (error) {
-          throw error
-          return
-        }
-
-        if (isAuthenticated) {
-          fetchMembershipsForCurrentUser()
-        }
-      })
-    }
-  }
-
   renderMasterbar = () => {
     const { isLoggedIn } = this.props
 
@@ -104,13 +84,4 @@ class Template extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  ...ownProps,
-  isLoggedIn: Boolean(getCurrentUserId(state)),
-})
-
-const mapDispatchToProps = {
-  fetchMembershipsForCurrentUser,
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Template)
+export default Template

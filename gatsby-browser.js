@@ -10,6 +10,7 @@ import { rehydrate } from 'glamor'
  * Internal dependencies
  */
 import configureStore from './src/state'
+import BungieNetProvider from './src/components/bungie-net/provider'
 
 exports.onClientEntry = () => {
   if (window._glamor) {
@@ -30,7 +31,9 @@ exports.replaceRouterComponent = ({ history }) => {
 
   const ConnectedRouteWrapper = ({ children }) => (
     <Provider store={store}>
-      <Router history={history}>{children}</Router>
+      <Router history={history}>
+        <BungieNetProvider>{children}</BungieNetProvider>
+      </Router>
     </Provider>
   )
 
