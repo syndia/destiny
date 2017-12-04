@@ -33,18 +33,13 @@ const fetchSuccess = createReducer(null, {
   [MEMBERSHIPS_FOR_CURRENT_USER_FETCH_SUCCESS]: () => true,
 })
 
-const data = createReducer(
-  {},
-  {
-    [MEMBERSHIPS_FOR_CURRENT_USER_RECEIVE]: (state, action) => {
-      if (action.error) {
-        return state
-      }
-
-      return get(action, [`bungieNetUser`, `destinyMemberships`], state)
-    },
-  }
-)
+export const data = createReducer(null, {
+  [CURRENT_USER_ID_SET]: (state, { bungieNetUser, destinyMemberships }) => ({
+    ...state,
+    bungieNetUser,
+    destinyMemberships,
+  }),
+})
 
 export default combineReducers({
   data,
