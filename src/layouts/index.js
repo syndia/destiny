@@ -35,7 +35,7 @@ const SOCIAL_LINKS = [
 ]
 
 class Template extends Component {
-  componentDidMount() {
+  componentWillMount() {
     const { isLoggedIn, fetchMembershipsForCurrentUser } = this.props
 
     if (!isLoggedIn) {

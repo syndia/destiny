@@ -14,10 +14,6 @@ import store from '../../../services/bungie-net/local-storage'
 import Masterbar from './index'
 import Item from './item'
 
-const LOCAL_STORAGE_ACCOUNT = '$account'
-const COMPONENT_PROFILES = 100
-const COMPONENTS = [COMPONENT_PROFILES]
-
 export default class MasterbarLoggedIn extends Component {
   render() {
     const { title } = this.props
