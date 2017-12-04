@@ -34,7 +34,10 @@ const fetchSuccess = createReducer(null, {
 })
 
 export const data = createReducer(null, {
-  [CURRENT_USER_ID_SET]: (state, { bungieNetUser, destinyMemberships }) => ({
+  [MEMBERSHIPS_FOR_CURRENT_USER_RECEIVE]: (
+    state,
+    { bungieNetUser, destinyMemberships }
+  ) => ({
     ...state,
     bungieNetUser,
     destinyMemberships,
