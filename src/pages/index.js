@@ -13,10 +13,7 @@ import Helmet from 'react-helmet'
 import presets from '../utils/presets'
 import { rhythm, scale } from '../utils/typography'
 import { getCurrentUserId } from '../state/selectors'
-import {
-  authorizeWithBungieNet,
-  signInWithBungieNet,
-} from '../services/bungie-net/auth'
+import { signInWithBungieNet } from '../services/bungie-net/auth'
 import Hero from '../components/hero'
 import HeroTitle from '../components/hero/title'
 import HeroSubtitle from '../components/hero/subtitle'
