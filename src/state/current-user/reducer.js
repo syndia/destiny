@@ -9,8 +9,8 @@ import {combineReducers} from 'redux';
 import {
   CURRENT_USER_ID_SET,
   CURRENT_USER_MEMBERSHIPS_RECEIVE,
-} from 'state/action-types';
-import {createReducer} from 'state/utils';
+} from '../action-types';
+import {createReducer} from '../utils';
 
 export const id = createReducer(null, {
   [CURRENT_USER_ID_SET]: (state, {userId}) => userId,

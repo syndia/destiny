@@ -5,19 +5,19 @@ import {
   MEMBERSHIPS_FOR_CURRENT_USER_FETCH,
   MEMBERSHIPS_FOR_CURRENT_USER_FETCH_FAILED,
   MEMBERSHIPS_FOR_CURRENT_USER_FETCH_SUCCESS,
-} from 'state/action-types';
+} from '../action-types';
 import {
   setCurrentUserId,
   setCurrentUserMemberships,
-} from 'state/current-user/actions';
+} from '../current-user/actions';
 import {
   CHARACTERS,
   CHARACTER_PROGRESSIONS,
   PROFILES,
   PROFILE_CURRENCIES,
-} from 'services/bungie-net/constants/destiny-component-type';
-import {getMembershipsForCurrentUser} from 'services/bungie-net/api/user';
-import {getProfile} from 'services/bungie-net/api/destiny-2';
+} from '../../services/bungie-net/constants/destiny-component-type';
+import {getMembershipsForCurrentUser} from '../../services/bungie-net/api/user';
+import {getProfile} from '../../services/bungie-net/api/destiny-2';
 
 const COMPONENTS = [
   CHARACTERS,
