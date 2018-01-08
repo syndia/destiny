@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { combineReducers } from 'redux'
+import {combineReducers} from 'redux';
 
 /**
  * Internal dependencies
@@ -9,21 +9,21 @@ import { combineReducers } from 'redux'
 import {
   CURRENT_USER_ID_SET,
   CURRENT_USER_MEMBERSHIPS_RECEIVE,
-} from '../action-types'
-import { createReducer } from '../utils'
+} from 'state/action-types';
+import {createReducer} from 'state/utils';
 
 export const id = createReducer(null, {
-  [CURRENT_USER_ID_SET]: (state, { userId }) => userId,
-})
+  [CURRENT_USER_ID_SET]: (state, {userId}) => userId,
+});
 
 export const memberships = createReducer(
   {},
   {
-    [CURRENT_USER_MEMBERSHIPS_RECEIVE]: (state, { memberships }) => memberships,
-  }
-)
+    [CURRENT_USER_MEMBERSHIPS_RECEIVE]: (state, {memberships}) => memberships,
+  },
+);
 
 export default combineReducers({
   id,
   memberships,
-})
+});
